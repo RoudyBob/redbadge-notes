@@ -110,7 +110,7 @@ Source ID if importing from another service
 
 {% api-method method="put" host="localhost:3000/workout" path="/" %}
 {% api-method-summary %}
-Create Workout Entry
+Update Workout Entry
 {% endapi-method-summary %}
 
 {% api-method-description %}

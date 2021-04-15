@@ -40,6 +40,7 @@
 * [API Endpoint \(usercontroller\)](final-project/api-endpoint-usercontroller-1.md)
 * [API Endpoint \(plancontroller\)](final-project/api-endpoint-plancontroller.md)
 * [API Endpoint \(workoutcontroller\)](final-project/api-endpoint-workoutcontroller.md)
+* [API Endpoint \(teamcontroller\)](final-project/api-endpoint-teamcontroller.md)
 * [Features](final-project/features.md)
 * [Dataflow](final-project/dataflow.md)
 * [Wireframing](final-project/wireframing.md)

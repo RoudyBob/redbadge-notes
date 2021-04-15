@@ -15,3 +15,41 @@ What's Next?
 
 * Start working on plan controller next.
 
+## 04/13/2021
+
+I didn't have the associations correct for my plan and workout tables. I spent a good amount of time tonight getting that working properly.
+
+I also realized that the way I was associating users with coaches via the team table was not going to work as I need it to. I ended up creating an association between the user table and team table and will have the user own the team record if they are a coach. Had to redo the user controller so that if a user had the profile set to "coach" it would automatically create the appropriate record in the team table. In that table there will be a column that will store the IDs of runners that have added themselves to that team.
+
+Did get the plan controller completed. Realized that the datatype I had for the date should have been DATEONLY for the plan date and the user birthdate so had to redo that work. 
+
+Started on the workout controller. 
+
+Completed
+
+* DB associations
+* user controller
+* plan controller
+
+What's Next?
+
+* workout controller
+* team controller
+
+## 04/15/2021
+
+had ownerid in my model for workout. didn't need it.
+
+when you put arrays in JSON body it has to have \[ \]
+
+Completed
+
+* DB associations
+* user controller
+* plan controller
+
+What's Next?
+
+* workout controller
+* team controller
+
