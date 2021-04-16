@@ -42,6 +42,35 @@ had ownerid in my model for workout. didn't need it.
 
 when you put arrays in JSON body it has to have \[ \]
 
+got associations to work to pull in the team if the user is a coach. this will then pull the team record for that user as well as I have access to the user's runners.
+
+```text
+User.findOne({
+    where: {
+        email: req.body.user.email
+    },
+    include: "team"
+})
+```
+
+Figured out how to check to see if the coach coaches the runner they're looking up
+
+
+
+```javascript
+    if (req.user.team) {
+        if (req.user.team.runners) {
+            if (!req.user.team.runners.includes(parseInt(req.params.id))) {
+                // Deny access if not a coach and the id doesn't match one of their runners
+                return res.status(403).json({ message: "You are not this runner's coach." })
+            } 
+        } else if (req.user.team.runners === null) {
+                // Deny access if not a coach has no runners
+                return res.status(403).json({ message: "You are not this runner's coach." })
+        }
+    }
+```
+
 Completed
 
 * DB associations
