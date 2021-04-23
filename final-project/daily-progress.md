@@ -82,3 +82,11 @@ What's Next?
 * workout controller
 * team controller
 
+## 04/19/2021
+
+I built out the react app for front-end with typescript support and started fleshing out the components I'd need along with installing dependencies like reactstrap and bootstrap.
+
+## 04/20/2021
+
+Got finished with the login and signup pages for the application using [this example](https://www.positronx.io/build-react-login-sign-up-ui-template-with-bootstrap-4/). Had some challenges remembering how to do interfaces for variable types and using state. Also had some challenges figuring out how to do the onChange events to get the values from the inputs but finally figured that out.
+
