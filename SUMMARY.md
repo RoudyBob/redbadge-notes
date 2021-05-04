@@ -46,4 +46,5 @@
 * [Wireframing](final-project/wireframing.md)
 * [Schedule](final-project/schedule.md)
 * [Daily Progress](final-project/daily-progress.md)
+* [Open Items](final-project/open-items.md)
 
