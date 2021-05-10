@@ -27,6 +27,6 @@ As a coach, a user can use the app to request permission from a runner to view a
 
 ## Deployment Link
 
-* Heroku Link Client \(TBD\)
-* Heroku Link Server \(TBD\)
+* https://myrunjournal.herokuapp.com
+* https://runjournal-server.herokuapp.com
 

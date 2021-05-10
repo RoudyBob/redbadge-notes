@@ -173,8 +173,78 @@ timestamp: new Date(new Date(workout.timestamp).toString().split('GMT')[0]+' UTC
 
 On the plans showing up on the prior day, Big Calendar will work with a simple date input but will assume that it's midnight UTC. I needed to add the local offset for the current Z back to this and use that value and then it worked. I had set the column in Postgres to date instead of timestamp with time zone. If I had done that then the fix above for the workouts would have worked for this as well.
 
+I also had to deal with this with pushing the date to the event creation. Because when Calendar sends the start/end time those are in UTC. Since midnight would be 00:00:00, everything was showing up as 04:00:00. So instead of adding the timezone difference, I had to subtract it. Example of what big cal sends when you select a slot: Sat May 15 2021 00:00:00 GMT-0400 \(Eastern Daylight Time\) When you convert that to ISO though it gets converted to UTC.
+
 ```text
 var tmpDate = new Date(plan.date);
 tmpDate.setHours(tmpDate.getHours() + (new Date().getTimezoneOffset() / 60));
 ```
+
+Finally figured out how to get the default units part working. The challenge here was that the HTML select input uses the value property to set the default. The onChange will update the value using a function if it changes. But if we set the value to the default units which is a state in the parent, updating it on change is very cumbersome. You'd have to write a function in the parent that changes the state and pass the function to the child and update it that way. What I ended up doing was creating a units state in the child. I am passing the user settings to the child from the parent. I then used componentDidUpdate to see if the props from the parent changed. If they did, I updated the state in the child which will re-render the HTML for the select input.
+
+```text
+componentDidUpdate(prevProps: CreatePlanModalProps, prevState: CreatePlanModalState) {
+    if (prevProps.userSettings.defaultUnits !== this.props.userSettings.defaultUnits) {
+        this.setState({ units: this.props.userSettings.defaultUnits });
+    }
+}
+
+exitModal = () => {
+    this.setState({ units: this.props.userSettings.defaultUnits });
+    this.props.createPlanToggle();
+}
+```
+
+I also needed a way to set the state in the child component back to the default when the user saved an entry with a different unit than the default and also if they changed it but then cancelled. So I did that with a function that changes the state back before it flips the toggle and also changes the state to the default units after it writes a new entry.
+
+## 5/5/2021
+
+Users were getting denied access if they weren't a coach. My checking in the server side was faulty. I was looking for an exact match but userID is an integer, paramsid is a string
+
+{ "message": "IDs don't match.", "userid": 2, "paramsid": "2" }
+
+```text
+if (req.user.id === req.params.id) {
+    const query = {
+        where: {id: req.params.id}
+    }
+```
+
+Spent a ton of time today working on endpoints and re-squashing time and date bugs due to the way HTML inputs work, how Sequelize returns datetime and how BigCalendar handles them. Finally got all of this working.
+
+Also fixed a bug related to login \(user not found\) with Rob/Marco's help.
+
+Refreshing calendar was fairly easy. Big Calendar will re-render when the events state changes. So I just needed to create a function that fetched all workouts and plans again and updated the events array state.
+
+Was also able to get the +more working - it's a setting in Big Calendar. 
+
+
+
+## 5/6/2021
+
+Got sidebar updating automatically by changing how the workouts and plans are pulled. Prior, I had the sidebar component loading all plans and workouts but what I needed was when the plans and workouts reloaded in the parent, to have state/props updated in the child so it would refresh. So I changed this and pulled the workouts and plans and stored them in state in the parent and then passed them as props to Sidebar.
+
+This helped with the refresh of stats/goals. It also caused one less backend query I guess. But then I had to redo all of my calculations for goals and totals. I was using state to do the addition but now since the workouts and plans were getting passed from the parent, I couldn't guarantee that the state in the child would be updated quickly enough. Had to rework everything to use local variables to do the calculations and then write those to state at the end.
+
+I struggle a lot with how to handle the fact that state updates happen asynchronously.
+
+## 5/8/2021
+
+Lots of progress on the user profile portion of the app as well as the view as user capabilities.
+
+User is able to edit their user settings from the database and do CRU operations. Also, pulling a list of coaches and allowing them to add coaches to their profile which modified the corresponding team in the teams table.
+
+View As works by having a state in main.tsx which is passed to all children components which is set to the user id that the current logged in user is impersonating. By default, they are viewing as their own user id but coaches have the ability to move between user ids.
+
+Restrictions in place for modifying, deleting or creating workouts as a coach for runners.
+
+Ability to switch between views of users you coach.
+
+## 5/6/2021
+
+Styling complete.
+
+Deployed to Heroku.
+
+Starting on Strava. Going to use [https://github.com/UnbounDev/node-strava-v3](https://github.com/UnbounDev/node-strava-v3).
 
