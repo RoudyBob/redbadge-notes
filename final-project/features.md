@@ -8,7 +8,7 @@
 | ~~"CUD" for Plan Entries \(coach-initiated\)~~ | 2.0 |
 | ~~"CRUD" for Workout Entries \(user-initiated\)~~ | 1.0 |
 | ~~"R" for Workout Entries \(coach-initiated\)~~ | 1.0 |
-| Import Workout Entries from Strava | 1.0 |
+| Import Workout Entries from Strava | ~~1.0~~ 2.0 |
 | Import Workout Entries from Garmin | 3.0 |
 | Map Start/Stop Location for Imported Workout Entries | 2.0 |
 | Temp, Humidity, AQI for Imported Workout Entries | 2.0 |
