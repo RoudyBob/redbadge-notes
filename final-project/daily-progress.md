@@ -240,11 +240,37 @@ Restrictions in place for modifying, deleting or creating workouts as a coach fo
 
 Ability to switch between views of users you coach.
 
-## 5/6/2021
+## 5/9/2021
 
 Styling complete.
 
 Deployed to Heroku.
 
-Starting on Strava. Going to use [https://github.com/UnbounDev/node-strava-v3](https://github.com/UnbounDev/node-strava-v3).
+Starting on Strava. Going to use [https://github.com/UnbounDev/node-strava-v3](https://github.com/UnbounDev/node-strava-v3). \(Ended up not using a library and just doing the work myself.\)
+
+## 5/10/2021
+
+I got the OAuth 2.0 authentication redirects all working today and was able to successfully pull back user data and activities from the Strava API. I ended up using a library called Lodash to help since some of the code examples I was basing this off of used it.
+
+* **Lodash:** To reduce additional code and requests. [https://lodash.com/](https://lodash.com/)
+
+Specifically, the example code used the isEmpty method detailed [here.](https://www.geeksforgeeks.org/lodash-_-isempty-method/)
+
+Once I got it. working using [an example application on GitHub](https://github.com/dunleavyjack/Strava-OAuth2-Test) and [a medium article the programmer wrote](https://levelup.gitconnected.com/add-strava-oauth2-login-to-your-react-app-in-15-minutes-6c92e845919e), I could then reverse engineer it to figure out how it worked and understand what was going on. I then built my own version.
+
+My understanding of it:
+
+1. Application directs the user's browser window to the Strava Authentication page along with my Strava Client ID. This was generated along with my Client Secret when I set up my app in the Strava API. Also included in that URL is the redirect URL and the scope of the permissions my app is requesting.
+2. User authenticates/authorizes my app on Strava's site and is then redirected back to the redirect URL specified in \#1. You also have to specify a redirect domain in the Strava API setup and these have to match.
+3. You must have a route created on your client application to handle what is sent back to the redirect URL. In my case that was /redirect so I set up a React-DOM route for that. 
+4. The redirect page should take the auth token provided by Strava and then perform a HTTP POST against Strava's OAuth endpoint providing the Client ID, the Client Secret and the auth token obtained for the user. You will get back an Access Token, a Refresh Token and other user information which you can then use to authenticate to do API calls to Strava!
+5. I saved the token and Strava ID for the user to local storage so it was available to my application.
+
+{% embed url="https://developers.strava.com/docs/reference/" %}
+
+{% embed url="https://www.strava.com/settings/api" %}
+
+{% embed url="https://developers.strava.com/playground/" %}
+
+
 
